@@ -1,0 +1,12 @@
+bullet hell     弹幕射击
+top-down        俯视角
+shooter         射击
+bullet          子弹
+projectile      投射物
+enemy           敌人
+character       角色
+sprite          2D图像素材
+tileset         地图块
+background      背景
+effect / VFX    特效
+explosion       爆炸
