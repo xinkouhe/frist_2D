@@ -10,6 +10,7 @@ action = &"start_game"
 events = [SubResource("InputEventAction_kek77")]
 
 [node name="HUD" type="CanvasLayer" unique_id=2067955954]
+process_mode = 3
 script = ExtResource("1_64ctp")
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=375469521]
@@ -40,9 +41,19 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_8sq4i")
 theme_override_font_sizes/font_size = 64
 text = "Dodge the Creeps!"
-autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 2
+visible_characters = 17
+
+[node name="HealthLabel" type="Label" parent="." unique_id=233638438]
+offset_right = 40.0
+offset_bottom = 23.0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 36
+text = "HP:3"
 
 [node name="StartButton" type="Button" parent="." unique_id=1239145107]
 anchors_preset = 7

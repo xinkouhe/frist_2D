@@ -19,9 +19,18 @@ func show_game_over() -> void:
 	await get_tree().create_timer(1.0).timeout
 	$StartButton.show()
 
+# 暂停功能bug，待修理
+#func show_game_paused(paused: bool) -> void:
+	#show_message("Game Paused!")
+	#await $MessageTimer.timeout
+
 
 func update_score(score: int) -> void:
 	$ScoreLabel.text = str(score)
+
+
+func update_health(health: int) -> void:
+	$HealthLabel.text = "HP:" + str(health)
 
 
 # Called when the node enters the scene tree for the first time.
