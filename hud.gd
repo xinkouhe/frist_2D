@@ -19,11 +19,6 @@ func show_game_over() -> void:
 	await get_tree().create_timer(1.0).timeout
 	$StartButton.show()
 
-# 暂停功能bug，待修理
-#func show_game_paused(paused: bool) -> void:
-	#show_message("Game Paused!")
-	#await $MessageTimer.timeout
-
 
 func update_score(score: int) -> void:
 	$ScoreLabel.text = str(score)
@@ -50,3 +45,13 @@ func _on_start_button_pressed() -> void:
 
 func _on_message_timer_timeout() -> void:
 	$Message.hide()
+
+
+# 暂停时处理，禁止启动按钮互动，防信号发送
+func set_paused(paused: bool) -> void:
+	$StartButton.disabled = paused
+	# 暂停可视化，待处理
+	if paused:
+		show_message("Game Paused!")
+	if !paused:
+		$Message.hide()

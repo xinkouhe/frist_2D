@@ -10,7 +10,6 @@ action = &"start_game"
 events = [SubResource("InputEventAction_kek77")]
 
 [node name="HUD" type="CanvasLayer" unique_id=2067955954]
-process_mode = 3
 script = ExtResource("1_64ctp")
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=375469521]
