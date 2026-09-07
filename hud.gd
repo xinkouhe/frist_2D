@@ -1,7 +1,9 @@
 extends CanvasLayer
 
 signal start_game
+signal ui_game_ready
 
+var message_was_visible := false
 
 func show_message(text: String) -> void:
 	$Message.text = text
@@ -18,6 +20,7 @@ func show_game_over() -> void:
 	
 	await get_tree().create_timer(1.0).timeout
 	$StartButton.show()
+	ui_game_ready.emit()
 
 
 func update_score(score: int) -> void:
@@ -30,7 +33,7 @@ func update_health(health: int) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$PausedLabel.hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,8 +53,13 @@ func _on_message_timer_timeout() -> void:
 # 暂停时处理，禁止启动按钮互动，防信号发送
 func set_paused(paused: bool) -> void:
 	$StartButton.disabled = paused
-	# 暂停可视化，待处理
+	
+	# 暂停可视化
 	if paused:
-		show_message("Game Paused!")
-	if !paused:
+		message_was_visible = $Message.visible
 		$Message.hide()
+		$PausedLabel.show()
+	else:
+		$PausedLabel.hide()
+		if message_was_visible:
+			$Message.show()

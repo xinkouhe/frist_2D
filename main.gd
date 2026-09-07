@@ -1,9 +1,15 @@
 extends Node
 
+enum GameState{
+	READY,
+	RUNNING,
+	OVER
+}
+
 @export var mob_scene: PackedScene
 
 var score 
-
+var game_state := GameState.READY
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +22,8 @@ func _process(delta: float) -> void:
 
 
 func game_over() -> void:
+	game_state = GameState.OVER
+	
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	# 开局两秒内死亡预防
@@ -27,6 +35,7 @@ func game_over() -> void:
 
 func new_game() -> void:
 	score = 0
+	game_state = GameState.RUNNING
 	
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
@@ -70,3 +79,7 @@ func _on_start_timer_timeout() -> void:
 
 func _on_player_health_changed(health: int) -> void:
 	$HUD.update_health(health)
+
+
+func _on_hud_ui_game_ready() -> void:
+	game_state = GameState.READY
