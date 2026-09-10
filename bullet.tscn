@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://pe5becmpoamh"]
+
+[ext_resource type="Script" uid="uid://d4k28c737de07" path="res://bullet.gd" id="1_v7oki"]
+[ext_resource type="Texture2D" uid="uid://df0wkhmo26vov" path="res://art/bullet_Apple.png" id="2_v8qja"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v8qja"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v8qja")
+}],
+"loop": 1,
+"name": &"default_bullet",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4vbm"]
+radius = 8.0
+
+[node name="Bullet" type="Area2D" unique_id=977622003]
+script = ExtResource("1_v7oki")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=351853776]
+sprite_frames = SubResource("SpriteFrames_v8qja")
+animation = &"default_bullet"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1135247999]
+shape = SubResource("CircleShape2D_t4vbm")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=72998484]
+rect = Rect2(-8, -8, 16, 16)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

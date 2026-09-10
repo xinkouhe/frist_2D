@@ -3,7 +3,7 @@ extends Node
 signal paused_changed(paused: bool)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	# 防回显事件长按持续触发
 	if event.is_action_pressed("paused_process") and not event.is_echo():
 		# 让输入停止沿场景树传播，防重复输入

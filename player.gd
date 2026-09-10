@@ -4,7 +4,7 @@ signal hit
 signal health_changed(health: int)
 
 @export var speed := 400
-var screem_size
+var screem_size: Vector2
 
 # 防止同一物理帧的多重碰撞导致重复受伤
 var is_invincible := false
@@ -24,7 +24,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var vlocity := Vector2.ZERO
-	
+
 	if Input.is_action_pressed("move_left"):
 		vlocity.x -= 1
 	if Input.is_action_pressed("move_right"):
@@ -33,16 +33,16 @@ func _process(delta: float) -> void:
 		vlocity.y += 1
 	if Input.is_action_pressed("move_up"):
 		vlocity.y -= 1
-	
+
 	if vlocity.length() > 0:
 		vlocity = vlocity.normalized() * speed
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
-		
+
 	position += vlocity * delta
 	position = position.clamp(Vector2.ZERO, screem_size)
-	
+
 	if vlocity.x != 0:
 		$AnimatedSprite2D.animation = "walk"
 		$AnimatedSprite2D.flip_v = false
@@ -71,14 +71,14 @@ func _on_body_entered(body: Node2D) -> void:
 
 func start(pos: Vector2) -> void:
 	position = pos
-	
+
 	health = max_health
 	health_changed.emit(health)
-	
+
 	$InvincibleTimer.stop()
 	is_invincible = false
 	$CollisionShape2D.disabled = false
-	
+
 	$BlinkTimer.stop()
 	$AnimatedSprite2D.self_modulate.a = 1.0
 	show()

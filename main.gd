@@ -8,7 +8,7 @@ enum GameState{
 
 @export var mob_scene: PackedScene
 
-var score 
+var score: int
 var game_state := GameState.READY
 
 # Called when the node enters the scene tree for the first time.

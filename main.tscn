@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bwb84auu131jj" path="res://hud.tscn" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://vkx0r7dadrqm" path="res://art/gameover.wav" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://jpv5d6bwge1l" path="res://paused_controller.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://w5wxcm07jpey" path="res://quit_controller.gd" id="7_272bh"]
 
 [sub_resource type="Curve2D" id="Curve2D_0xm2m"]
 _data = {
@@ -72,6 +73,10 @@ stream = ExtResource("5_lquwl")
 [node name="PausedController" type="Node" parent="." unique_id=1579387482]
 process_mode = 3
 script = ExtResource("6_7mycd")
+
+[node name="QuitController" type="Node" parent="." unique_id=1691891310]
+process_mode = 3
+script = ExtResource("7_272bh")
 
 [connection signal="health_changed" from="Player" to="." method="_on_player_health_changed"]
 [connection signal="hit" from="Player" to="." method="game_over"]
