@@ -3,6 +3,7 @@ extends Area2D
 signal hit
 signal health_changed(health: int)
 
+@export var bullet_sence: PackedScene
 @export var speed := 400
 var screem_size: Vector2
 
@@ -24,15 +25,16 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var vlocity := Vector2.ZERO
-
-	if Input.is_action_pressed("move_left"):
-		vlocity.x -= 1
-	if Input.is_action_pressed("move_right"):
-		vlocity.x += 1
-	if Input.is_action_pressed("move_down"):
-		vlocity.y += 1
-	if Input.is_action_pressed("move_up"):
-		vlocity.y -= 1
+	
+	if !is_dead:
+		if Input.is_action_pressed("move_left"):
+			vlocity.x -= 1
+		if Input.is_action_pressed("move_right"):
+			vlocity.x += 1
+		if Input.is_action_pressed("move_down"):
+			vlocity.y += 1
+		if Input.is_action_pressed("move_up"):
+			vlocity.y -= 1
 
 	if vlocity.length() > 0:
 		vlocity = vlocity.normalized() * speed
@@ -59,9 +61,11 @@ func _on_body_entered(body: Node2D) -> void:
 		if health <= 0:
 			health = 0
 			hide()
+			is_dead = true
 			hit.emit()
 			# 延迟到物理帧结束后再修改碰撞状态，避免在碰撞回调中直接修改物理状态。
 			$CollisionShape2D.set_deferred("disabled", true)
+			$ShootTimer.stop()
 		else:
 			$CollisionShape2D.set_deferred("disabled", true)
 			$InvincibleTimer.start()
@@ -74,6 +78,8 @@ func start(pos: Vector2) -> void:
 
 	health = max_health
 	health_changed.emit(health)
+
+	is_dead = false
 
 	$InvincibleTimer.stop()
 	is_invincible = false
@@ -103,3 +109,20 @@ func add_health() -> void:
 	if health > 0 and health < max_health:
 		health += 1
 		health_changed.emit(health)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if !is_dead:
+		if event.is_action_pressed("shoot_bullet"):
+			$ShootTimer.start()
+		if event.is_action_released("shoot_bullet"):
+			$ShootTimer.stop()
+
+
+func shoot_bullet() -> void:
+	var bullet := bullet_sence.instantiate()
+	
+	bullet.receive_player_muzzle_position($Muzzle.global_position)
+	
+	$"../".add_child(bullet)
+	

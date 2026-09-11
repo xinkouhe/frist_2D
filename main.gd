@@ -54,6 +54,7 @@ func _on_mob_timer_timeout() -> void:
 	
 	mob.position = mob_spawn_location.position
 	
+	# 動態計算無法自動推斷
 	var direction: float = mob_spawn_location.rotation + PI / 2
 	
 	direction += randf_range(-PI / 4, PI / 4)

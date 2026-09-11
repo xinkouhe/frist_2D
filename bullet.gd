@@ -12,7 +12,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	position += Vector2.UP * delta * bullet_speed
 
-func receive_player_position(pos: Vector2) -> void:
+func receive_player_muzzle_position(pos: Vector2) -> void:
 	position = pos
 
 

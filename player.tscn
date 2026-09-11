@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bpvgh3wjsytyq" path="res://art/playerGrey_up1.png" id="1_hqtel"]
 [ext_resource type="Script" uid="uid://b17523ut6vj8e" path="res://player.gd" id="1_sweqy"]
+[ext_resource type="PackedScene" uid="uid://pe5becmpoamh" path="res://bullet.tscn" id="2_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://m5oko3tigddo" path="res://art/playerGrey_up2.png" id="2_sweqy"]
 [ext_resource type="Texture2D" uid="uid://cinl7tqgy8vry" path="res://art/playerGrey_walk1.png" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://drc0deltbpap2" path="res://art/playerGrey_walk2.png" id="4_1jxqw"]
@@ -37,6 +38,7 @@ height = 68.0
 
 [node name="Player" type="Area2D" unique_id=624756775]
 script = ExtResource("1_sweqy")
+bullet_sence = ExtResource("2_2hs0m")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710621084]
@@ -54,6 +56,13 @@ one_shot = true
 [node name="BlinkTimer" type="Timer" parent="." unique_id=142525551]
 wait_time = 0.1
 
+[node name="Muzzle" type="Marker2D" parent="." unique_id=1914027282]
+position = Vector2(0, -50)
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=597570475]
+wait_time = 0.1
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="InvincibleTimer" to="." method="_on_invincible_timer_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
+[connection signal="timeout" from="ShootTimer" to="." method="shoot_bullet"]
