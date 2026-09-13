@@ -18,3 +18,9 @@ func receive_player_muzzle_position(pos: Vector2) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Mob:
+		body.take_damage()
+		queue_free()

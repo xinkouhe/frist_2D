@@ -19,6 +19,7 @@ var health := max_health
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screem_size = get_viewport_rect().size
+	is_dead = true
 	hide()
 
 
@@ -80,6 +81,8 @@ func start(pos: Vector2) -> void:
 	health_changed.emit(health)
 
 	is_dead = false
+	
+	$ShootTimer.stop()
 
 	$InvincibleTimer.stop()
 	is_invincible = false

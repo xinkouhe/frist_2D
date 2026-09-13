@@ -24,7 +24,6 @@ func _process(delta: float) -> void:
 func game_over() -> void:
 	game_state = GameState.OVER
 	
-	$ScoreTimer.stop()
 	$MobTimer.stop()
 	# 开局两秒内死亡预防
 	$StartTimer.stop()
@@ -44,6 +43,7 @@ func new_game() -> void:
 	$Music.play()
 	
 	get_tree().call_group("mobs", "queue_free")
+	get_tree().call_group("bullets", "queue_free")
 
 
 func _on_mob_timer_timeout() -> void:
@@ -63,19 +63,13 @@ func _on_mob_timer_timeout() -> void:
 	var velocity := Vector2(randf_range(150.0, 250.0), 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
 	
+	mob.mob_died.connect(_on_mob_died)
+	
 	add_child(mob)
-
-
-func _on_score_timer_timeout() -> void:
-	score += 1
-	$HUD.update_score(score)
-	if score % 10 == 0:
-		$Player.add_health()
 
 
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
-	$ScoreTimer.start()
 
 
 func _on_player_health_changed(health: int) -> void:
@@ -84,3 +78,12 @@ func _on_player_health_changed(health: int) -> void:
 
 func _on_hud_ui_game_ready() -> void:
 	game_state = GameState.READY
+
+
+func _on_mob_died():
+	if game_state != GameState.RUNNING:
+		return
+	score += 1
+	$HUD.update_score(score)
+	if score % 10 == 0:
+		$Player.add_health()
